@@ -6,7 +6,7 @@ import org.aula.controlefinanceiro.service.ReceitaService;
 import org.aula.controlefinanceiro.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +27,7 @@ public class ReceitaController {
     @PostMapping("/cadastrar/{usuarioId}")
     public ResponseEntity<Receita> cadastrar(
             @PathVariable Long usuarioId,
-            @RequestBody Receita receita) {
+            @RequestBody @Valid Receita receita) {
 
         Usuario usuario = usuarioService.buscarPorId(usuarioId);
 

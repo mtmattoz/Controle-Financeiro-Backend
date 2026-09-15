@@ -8,7 +8,7 @@ import org.aula.controlefinanceiro.service.TransacaoService;
 import org.aula.controlefinanceiro.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +33,7 @@ public class TransacaoController {
     public ResponseEntity<Transacao> cadastrar(
             @PathVariable Long usuarioId,
             @PathVariable Long categoriaId,
-            @RequestBody Transacao transacao) {
+            @RequestBody @Valid Transacao transacao) {
 
         Usuario usuario = usuarioService.buscarPorId(usuarioId);
         Categoria categoria = categoriaService.buscarPorId(categoriaId);

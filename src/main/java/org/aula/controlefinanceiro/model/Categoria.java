@@ -1,8 +1,9 @@
 package org.aula.controlefinanceiro.model;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.*;
 import lombok.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,10 +17,11 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotBlank(message = "Nome da categoria é obrigatório.")
     @Column(nullable = false, length = 50)
     private String nome;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;

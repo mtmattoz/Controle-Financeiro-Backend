@@ -6,6 +6,7 @@ import org.aula.controlefinanceiro.service.CategoriaService;
 import org.aula.controlefinanceiro.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class CategoriaController {
     @PostMapping("/cadastrar/{usuarioId}")
     public ResponseEntity<Categoria> cadastrar(
             @PathVariable Long usuarioId,
-            @RequestBody Categoria categoria) {
+            @RequestBody @Valid Categoria categoria) {
 
         Usuario usuario = usuarioService.buscarPorId(usuarioId);
 
