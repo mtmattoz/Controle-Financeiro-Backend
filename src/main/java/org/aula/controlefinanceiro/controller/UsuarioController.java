@@ -5,6 +5,7 @@ import org.aula.controlefinanceiro.model.Usuario;
 import org.aula.controlefinanceiro.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuario")
@@ -18,7 +19,7 @@ public class UsuarioController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<UsuarioResponseDTO> cadastrar(
-            @RequestBody Usuario usuario) {
+            @RequestBody @Valid Usuario usuario) {
 
         Usuario novoUsuario = usuarioService.cadastrar(usuario);
 

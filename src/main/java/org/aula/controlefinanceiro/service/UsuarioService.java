@@ -5,6 +5,7 @@ import org.aula.controlefinanceiro.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.aula.controlefinanceiro.exception.SenhaIncorretaException;
+import org.aula.controlefinanceiro.exception.UsuarioNaoEncontradoException;
 
 @Service
 public class UsuarioService {
@@ -38,7 +39,7 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository
                 .findByNomeUsuario(nomeUsuario)
                 .orElseThrow(() ->
-                        new RuntimeException("Usuário não encontrado.")
+                        new UsuarioNaoEncontradoException("Usuário não encontrado.")
                 );
 
         if (!passwordEncoder.matches(senha, usuario.getSenha())) {
