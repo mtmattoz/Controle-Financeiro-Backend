@@ -2,15 +2,22 @@ package org.aula.controlefinanceiro.service;
 
 import org.aula.controlefinanceiro.model.Usuario;
 import org.aula.controlefinanceiro.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.aula.controlefinanceiro.exception.SenhaIncorretaException;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder) {
+
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario cadastrar(Usuario usuario) {
@@ -19,6 +26,10 @@ public class UsuarioService {
             throw new RuntimeException("Nome de usuário já está em uso.");
         }
 
+        usuario.setSenha(
+                passwordEncoder.encode(usuario.getSenha())
+        );
+
         return usuarioRepository.save(usuario);
     }
 
@@ -26,10 +37,12 @@ public class UsuarioService {
 
         Usuario usuario = usuarioRepository
                 .findByNomeUsuario(nomeUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+                .orElseThrow(() ->
+                        new RuntimeException("Usuário não encontrado.")
+                );
 
-        if (!usuario.getSenha().equals(senha)) {
-            throw new RuntimeException("Senha incorreta.");
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
+            throw new SenhaIncorretaException("Senha incorreta.");
         }
 
         return usuario;
@@ -38,6 +51,8 @@ public class UsuarioService {
     public Usuario buscarPorId(Long id) {
 
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+                .orElseThrow(() ->
+                        new RuntimeException("Usuário não encontrado.")
+                );
     }
 }

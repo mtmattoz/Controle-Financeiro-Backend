@@ -1,5 +1,6 @@
 package org.aula.controlefinanceiro.controller;
 
+import org.aula.controlefinanceiro.dto.UsuarioResponseDTO;
 import org.aula.controlefinanceiro.model.Usuario;
 import org.aula.controlefinanceiro.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +17,33 @@ public class UsuarioController {
     }
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioResponseDTO> cadastrar(
+            @RequestBody Usuario usuario) {
+
         Usuario novoUsuario = usuarioService.cadastrar(usuario);
 
-        return ResponseEntity.ok(novoUsuario);
+        UsuarioResponseDTO resposta = new UsuarioResponseDTO(
+                novoUsuario.getId(),
+                novoUsuario.getNomeUsuario(),
+                novoUsuario.getCriadoEm()
+        );
+
+        return ResponseEntity.ok(resposta);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(
+    public ResponseEntity<UsuarioResponseDTO> login(
             @RequestParam String nomeUsuario,
             @RequestParam String senha) {
 
         Usuario usuario = usuarioService.login(nomeUsuario, senha);
 
-        return ResponseEntity.ok(usuario);
+        UsuarioResponseDTO resposta = new UsuarioResponseDTO(
+                usuario.getId(),
+                usuario.getNomeUsuario(),
+                usuario.getCriadoEm()
+        );
+
+        return ResponseEntity.ok(resposta);
     }
 }
