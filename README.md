@@ -33,4 +33,4 @@ O projeto utiliza uma arquitetura em camadas:
 
 ## Status
 
-Backend funcional em desenvolvimento. O próximo passo é implementar melhorias de segurança e desenvolver o frontend.
+Backend funcional em desenvolvimento. O próximo passo é implementar melhorias de segurança e realizar a integração de um agente financeiro de IA.
