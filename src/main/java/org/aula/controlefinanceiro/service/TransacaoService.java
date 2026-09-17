@@ -4,7 +4,7 @@ import org.aula.controlefinanceiro.model.Transacao;
 import org.aula.controlefinanceiro.model.Usuario;
 import org.aula.controlefinanceiro.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;
-
+import org.aula.controlefinanceiro.exception.AcessoNegadoException;
 import java.util.List;
 
 @Service
@@ -38,7 +38,19 @@ public class TransacaoService {
         return transacaoRepository.findByUsuarioAndTipo(usuario, tipo);
     }
 
-    public void excluir(Long id) {
-        transacaoRepository.deleteById(id);
+    public void excluir(Long id, Usuario usuario) {
+
+        Transacao transacao = transacaoRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Transação não encontrada.")
+                );
+
+        if (!transacao.getUsuario().getId().equals(usuario.getId())) {
+            throw new AcessoNegadoException(
+                    "Você não pode excluir uma transação de outro usuário."
+            );
+        }
+
+        transacaoRepository.delete(transacao);
     }
 }

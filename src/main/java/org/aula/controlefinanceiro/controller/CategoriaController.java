@@ -51,10 +51,14 @@ public class CategoriaController {
         return ResponseEntity.ok(categorias);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    @DeleteMapping("/{id}/usuario/{usuarioId}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long id,
+            @PathVariable Long usuarioId) {
 
-        categoriaService.excluir(id);
+        Usuario usuario = usuarioService.buscarPorId(usuarioId);
+
+        categoriaService.excluir(id, usuario);
 
         return ResponseEntity.noContent().build();
     }

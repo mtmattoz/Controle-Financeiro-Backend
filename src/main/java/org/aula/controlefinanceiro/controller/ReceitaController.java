@@ -50,10 +50,14 @@ public class ReceitaController {
         return ResponseEntity.ok(receitas);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    @DeleteMapping("/{id}/usuario/{usuarioId}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long id,
+            @PathVariable Long usuarioId) {
 
-        receitaService.excluir(id);
+        Usuario usuario = usuarioService.buscarPorId(usuarioId);
+
+        receitaService.excluir(id, usuario);
 
         return ResponseEntity.noContent().build();
     }

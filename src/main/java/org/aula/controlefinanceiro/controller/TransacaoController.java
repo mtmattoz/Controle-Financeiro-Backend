@@ -86,10 +86,14 @@ public class TransacaoController {
         return ResponseEntity.ok(transacoes);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    @DeleteMapping("/{id}/usuario/{usuarioId}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long id,
+            @PathVariable Long usuarioId) {
 
-        transacaoService.excluir(id);
+        Usuario usuario = usuarioService.buscarPorId(usuarioId);
+
+        transacaoService.excluir(id, usuario);
 
         return ResponseEntity.noContent().build();
     }

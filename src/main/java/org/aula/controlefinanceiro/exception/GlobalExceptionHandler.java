@@ -46,4 +46,13 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(erros);
     }
+
+    @ExceptionHandler(AcessoNegadoException.class)
+    public ResponseEntity<String> tratarAcessoNegado(
+            AcessoNegadoException exception) {
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(exception.getMessage());
+    }
 }
